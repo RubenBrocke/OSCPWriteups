@@ -2,8 +2,6 @@
 
 ## Recon
 
-### Port scanning
-
 ``` bash
 PORT     STATE  SERVICE    VERSION
 22/tcp   open   ssh        OpenSSH 5.9p1 Debian 5ubuntu1.1 (Ubuntu Linux; protocol 2.0)
@@ -80,6 +78,8 @@ seems like there is a /wolfcms we haven't found. it looks like this
 
 ![](OSCPwolfcms.png)
 
+## Exploit
+
 Looks like a content management system. The admin login page for wolfcms is located at
 http://<IP>/wolfcms/?/admin/login
 
@@ -99,6 +99,8 @@ If we check /etc/cron.d/automate we can see that it contains
 ```
 * * * * * root /usr/bin/python /var/www/connect.py
 ```
+
+## Privilege Escalation
 
 This means it executes a file as root in /var/www. since we are www-data we are able to write in that directory. This means we can edit the connect.py file to execute any piece of code we want.
 This way we can read the flag by writing the python code
